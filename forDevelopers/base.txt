@@ -1,0 +1,31 @@
+import telebot
+from telebot import types
+
+bot = telebot.TeleBot('1205687194:AAEFhURp4sxVNSCpiFMY4iNTcNgNbHi9EYc')
+
+
+@bot.message_handler(commands='group')
+def open_website(message):
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton('Посетить группу', url="https://t.me/pitchup"))
+    bot.send_message(message.chat.id, 'Встыпай в группу', parse_mode='html', reply_markup=markup)
+
+
+@bot.message_handler(commands='insta')
+def open_website(message):
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton('Посетить инсту', url="https://www.instagram.com/maxgavrilovich/"))
+    bot.send_message(message.chat.id, 'Подпишись на инсту', parse_mode='html', reply_markup=markup)
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    send_mess = f"<b>Привет, {message.from_user.first_name}!</b>\nКакое направление тебя интересует?"
+    bot.send_message(message.chat.id, send_mess, parse_mode='html')
+
+
+bot.polling(none_stop=True)
+
+@bot.message_handler(func=lambda m: True)
+def echo_all(message):
+    bot.reply_to(message, message.text)
